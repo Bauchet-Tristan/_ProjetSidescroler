@@ -1,0 +1,11 @@
+regarder tuto etc...
+
+télécharger "Bracket"
+
+telecharger le dossier zip "phaser"
+
+télécharger Mongoose
+
+mettre le tous dans un dossier 
+
+tappez l'adresse "http://localhost:8000/" 
