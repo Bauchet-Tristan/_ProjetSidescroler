@@ -34,6 +34,7 @@ var config = {
 };
 
 var player;
+var wolf;
 
 var platforms;
 var ICE = false;
@@ -64,6 +65,7 @@ function preload ()
     this.load.image('groundICE', 'assets/platformICE.png');
     this.load.image('groundSNOW', 'assets/platformSNOW.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('wolf', 'assets/wolf.png', { frameWidth: 32, frameHeight: 48 });
 }
 
 
@@ -94,6 +96,11 @@ function create ()
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
     player.setCollideWorldBounds(true);
+
+    //Wolf
+    wolf = this.physics.add.sprite(100, 450, 'wolf');
+    wolf.setCollideWorldBounds(true);
+
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
