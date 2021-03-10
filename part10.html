@@ -48,6 +48,7 @@ var doubleSaut = true;
 var paddleConnected = false ;
 var paddle;
 
+
 var game = new Phaser.Game(config);
 
 function preload ()
@@ -143,9 +144,18 @@ function create ()
     this.physics.add.collider(player, bombs, hitBomb, null, this);
 }
 
-            
+var frame = 0; 
+
 function update ()
 {
+    frame = frame +1;
+    if(frame ==70)
+    {
+        frame = 0
+        console.log(frame);
+    }
+
+
     this.input.gamepad.once('connected',function(pad)
     {
         paddleConnected = true ;
