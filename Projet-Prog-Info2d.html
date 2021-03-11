@@ -40,6 +40,15 @@ var platforms;
 var ICE = false;
 var SNOW = false;
 
+// Stat joueur //
+
+// Life //
+var lifeMax =10;
+var life = 10;
+var scoreText;
+var test = 0;
+
+// Speed //
 var CurrentSpeed;
 var speed = 160;
 var speedICE = 220;
@@ -157,6 +166,9 @@ function create ()
     // Collide the player with the platforms SNOW 
     this.physics.add.collider(player, platformsSNOW,GroundWhite);
 
+    //  The score
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '102px', fill: '#000' });
+
 }
 
 //////////////////////////////////////////////////////// FUNCTION-UPDATE ////////////////////////////////////////////////////////
@@ -174,11 +186,12 @@ function update ()
         paddleConnected = true ;
         paddle = pad ;
     });
+///////////////////////////////////////////////////////  Ennemie  /////////////////////////////////////////////////////////////
 
     // Ennemi patern
     // wolf.setVelocityX(-160);
 
-    //////////////////////////////////////////////////////////  Control Clavier ///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////  Control Clavier ////////////////////////////////////////////////////////
     
     if (paddleConnected == false)
     {
@@ -235,10 +248,6 @@ function update ()
         {
             player.anims.play('turn');
         }
-        
-        
-
-
 
         //---------------// Saut //---------------//
         if (player.body.touching.down && cursors.space.isDown)
@@ -247,11 +256,9 @@ function update ()
             jump1 = 1;
         }
         
-        
         //---------------// Check relache Space ET debloque le deuxieme saut//---------------//   
         if(cursors.space.isUp && jump1 == 1)
         {
-            console.log("rentrer");
             jump2 = 1;
         }
 
@@ -261,14 +268,12 @@ function update ()
             jump1 = 1;
             jumpAerien = 1;
             jump2 = 1;
-            console.log("rentrer2222222e");
         }
 
         //---------------// Double Saut //---------------//  
         if (!player.body.touching.down && cursors.space.isDown && jump2 == 1) // quand on re APPUIS
         {
             player.setVelocityY(-200);
-            console.log("DOUBLE SAUT");
             jump1 = 0;
             jump2 = 0;
             jumpAerien = 1;
