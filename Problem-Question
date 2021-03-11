@@ -2,9 +2,15 @@
 Ajouté de la deco sur les plateforme sans qu'elle ai de hit box == 
 Reponse == rajouté de la deco manuellement par dessus en ajoutant de la deco au meme coordonné
 
-
-Ameliorer l'inertie en rajoutant un effet de glissade/patinage sur la glace
+Ameliorer l'inertie en rajoutant un effet de glissade/patinage sur la glace 
+reponse : allez voir les fonction de deplacement autres que "setvelocity"
 
 Augmenter la taille du perso
+Reponse : Sprite up en taille
 
 Crée un deplacement pour l'ennemi
+setvelocity...
+
+
+Rendre le saut plus smooth
+

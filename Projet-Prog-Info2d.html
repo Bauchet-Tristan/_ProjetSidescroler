@@ -21,7 +21,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 350 },
             debug: true
         }
     },
@@ -46,9 +46,16 @@ var speedICE = 220;
 var speedSNOW = 100;
 
 //  Compteur //
+//Saut//
 var jump1 = 0;
 var jump2 = 0;
-var dashAttack = 0;
+var jumpAerien = 0;
+
+//Dash attack
+var dashAttackLeft = 0;
+var dashAttackRight = 0;
+var dashAerien = 0;
+var tempDash = 0;
 
 //  Input Events  //
 var cursors;
@@ -162,154 +169,215 @@ function update ()
         return;
     }
 
-    // Ennemi patern
-    // wolf.setVelocityX(-160);
-
-    //////////////////////////////////////////////////////////  Control Clavier ///////////////////////////////////////////////////////////
-    
-    if (paddleConnected == false)
-        {
-
-            if (cursors.left.isDown)
-            {
-                if(ICE == true)
-                {
-                    CurrentSpeed = speedICE;
-                }
-                else if (SNOW == true)
-                {
-                    CurrentSpeed = speedSNOW;
-                }
-                else
-                {
-                    CurrentSpeed = speed;
-                }
-
-                player.setVelocityX(-CurrentSpeed);
-
-                player.anims.play('left', true);
-            }
-            else if (cursors.right.isDown)
-            {
-                if(ICE == true)
-                {
-                    CurrentSpeed = speedICE;
-                }
-                else if (SNOW == true)
-                {
-                    CurrentSpeed = speedSNOW;
-                }
-                else
-                {
-                    CurrentSpeed = speed;
-                }
-
-                player.setVelocityX(CurrentSpeed);
-
-                player.anims.play('right', true);
-            }
-        
-            //---------------//Sol normal//---------------//
-            else if (ICE == false)
-            {
-                player.setVelocityX(0);
-
-                player.anims.play('turn');
-            }
-        
-            //---------------//Sol de glace//---------------//
-            else if (ICE == true)
-            {
-                player.anims.play('turn');
-            }
-            
-            
-            //---------------//Saut//---------------//
-
-            if (player.body.touching.down && cursors.space.isDown)
-                {
-                    player.setVelocityY(-350); 
-                    jump1 = 1;
-                }
-            
-
-            //---------------// Check relanche Space //---------------//   
-            if(cursors.space.isUp && jump1 == 1)
-                {
-                    jump2 = 1;
-                }
-
-
-            //---------------// Double Saut//---------------//
-            
-            if (!player.body.touching.down && cursors.space.isDown && jump2 == 1) // quand on re APPUIS
-            {
-                player.setVelocityY(-350);
-                console.log("DOUBLE SAUT");
-                jump1 = 0;
-                jump2 = 0;
-            }
-
-
-            //---------------//Dash Down//---------------//
-            if (!player.body.touching.down && cursors.down.isDown)
-                {
-                    player.setVelocityY(400);
-                }
-
-
-            //---------------//Dash attack//---------------//
-            if (keyA.isDown && dashAttack == 0)
-            {
-                player.setVelocityX(5000);
-                dashAttack = 1;
-                console.log("dashAttack  =",dashAttack);
-            }
-
-            if (keyA.isUp && dashAttack == 1)
-            {
-                dashAttack = 0;
-                console.log("dashAttack  =",dashAttack);
-            }
-
-    //////////////////////////////////////////////////////////  Control manette //////////////////////////////////////////////////////////
-
     this.input.gamepad.once('connected',function(pad)
     {
         paddleConnected = true ;
         paddle = pad ;
     });
 
-    if (paddleConnected == true)
+    // Ennemi patern
+    // wolf.setVelocityX(-160);
+
+    //////////////////////////////////////////////////////////  Control Clavier ///////////////////////////////////////////////////////////
+    
+    if (paddleConnected == false)
+    {
+
+        if (cursors.left.isDown)
         {
-            if (paddle.left )
+            if(ICE == true)
             {
-                player.setVelocityX(-160);
-
-                player.anims.play('left', true);
+                CurrentSpeed = speedICE;
             }
-            
-            else if (paddle.right )
+            else if (SNOW == true)
             {
-                player.setVelocityX(160);
-
-                player.anims.play('right', true);
+                CurrentSpeed = speedSNOW;
             }
-            
             else
             {
-                player.setVelocityX(0);
-
-                player.anims.play('turn');
+                CurrentSpeed = speed;
             }
 
-            if (player.body.touching.down && paddle.A)
-                {
-                    player.setVelocityY(-330);
-                }
+            player.setVelocityX(-CurrentSpeed);
+
+            player.anims.play('left', true);
+        }
+        else if (cursors.right.isDown)
+        {
+            if(ICE == true)
+            {
+                CurrentSpeed = speedICE;
+            }
+            else if (SNOW == true)
+            {
+                CurrentSpeed = speedSNOW;
+            }
+            else
+            {
+                CurrentSpeed = speed;
+            }
+
+            player.setVelocityX(CurrentSpeed);
+
+            player.anims.play('right', true);
+        }
+    
+        //---------------//Sol normal//---------------//
+        else if (ICE == false)
+        {
+            player.setVelocityX(0);
+
+            player.anims.play('turn');
+        }
+    
+        //---------------//Sol de glace//---------------//
+        else if (ICE == true)
+        {
+            player.anims.play('turn');
+        }
+        
+        
+
+
+
+        //---------------// Saut //---------------//
+        if (player.body.touching.down && cursors.space.isDown)
+        {
+            player.setVelocityY(-350); 
+            jump1 = 1;
+        }
+        
+        
+        //---------------// Check relache Space ET debloque le deuxieme saut//---------------//   
+        if(cursors.space.isUp && jump1 == 1)
+        {
+            console.log("rentrer");
+            jump2 = 1;
         }
 
-        }    
+        //---------------// Check si en l'air sans utiliser Saut 1 ET debloque le deuxieme saut//---------------//   
+        if (!player.body.touching.down && jumpAerien == 0 && jump1 == 0)
+        {
+            jump1 = 1;
+            jumpAerien = 1;
+            jump2 = 1;
+            console.log("rentrer2222222e");
+        }
+
+        //---------------// Double Saut //---------------//  
+        if (!player.body.touching.down && cursors.space.isDown && jump2 == 1) // quand on re APPUIS
+        {
+            player.setVelocityY(-200);
+            console.log("DOUBLE SAUT");
+            jump1 = 0;
+            jump2 = 0;
+            jumpAerien = 1;
+        }
+
+        //---------------// reset si on a pas utiliser notre double saut //---------------// 
+        if (player.body.touching.down && jump2 == 1 )
+        {
+            jump1 = 0;
+            jump2 = 0;
+        }
+
+        //---------------// reset si on a pas utiliser notre sautAerien //---------------// 
+        if (player.body.touching.down && jumpAerien == 1 )
+        {
+            jumpAerien =0;
+        }
+ 
+
+
+        //---------------// Dash Down //---------------//
+        if (!player.body.touching.down && cursors.down.isDown)
+            {
+                player.setVelocityY(400);
+            }
+
+
+        //---------------// Dash attack //---------------//
+
+        if (dashAerien == 0)
+        {
+            if (cursors.right.isDown && keyA.isDown && (dashAttackRight == 0 || dashAttackLeft == 0))
+            { 
+                dashAttackRight = 1;
+            }
+
+            if (cursors.left.isDown && keyA.isDown && (dashAttackRight == 0 || dashAttackLeft == 0))
+            { 
+                dashAttackLeft = 1;
+            }
+
+
+
+            if ((dashAttackRight == 1 || dashAttackLeft == 1) && tempDash < 9)
+            {
+                if(dashAttackRight == 1)
+                {
+                    player.setVelocityX(1500);
+                }
+                else if (dashAttackLeft == 1)
+                {
+                    player.setVelocityX(-1500);
+                }
+                tempDash++;
+            }
+
+            if (keyA.isUp && tempDash >= 9 && (dashAttackRight == 1 || dashAttackLeft == 1))
+            {
+                dashAttackLeft = 0;
+                dashAttackRight = 0;
+                tempDash = 0;
+                dashAerien = 1;
+            }
+        }
+        
+        if (!player.body.touching.down && dashAerien== 1)
+        {
+
+        }
+        else if (player.body.touching.down && dashAerien== 1)
+        {
+            dashAerien = 0;
+        }
+    } 
+
+
+
+//////////////////////////////////////////////////////////  Control manette //////////////////////////////////////////////////////////
+
+  
+    if (paddleConnected == true)
+    {
+        if (paddle.left )
+        {
+            player.setVelocityX(-160);
+
+            player.anims.play('left', true);
+        }
+        
+        else if (paddle.right )
+        {
+            player.setVelocityX(160);
+
+            player.anims.play('right', true);
+        }
+        
+        else
+        {
+            player.setVelocityX(0);
+
+            player.anims.play('turn');
+        }
+
+        if (player.body.touching.down && paddle.A)
+            {
+                player.setVelocityY(-330);
+            }
+    }
+           
 }
 
 function GroundGreen ()
