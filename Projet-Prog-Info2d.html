@@ -35,7 +35,7 @@ var config = {
 
 var player;
 var wolf;
-var test;
+var test =0;;
 
 var platforms;
 var ICE = false;
@@ -207,7 +207,7 @@ function create ()
     this.physics.add.collider(player, platforms,GroundGreen);
 
     // collide with wolf
-    this.physics.add.collider(wolf, platforms,GroundGreen);
+    this.physics.add.collider(wolf, platforms);
     
     // Collide the player with the platforms ICE
     this.physics.add.collider(player, platformsICE,GroundBlue);
@@ -219,15 +219,25 @@ function create ()
 /////// Ennemi Collider ///////
 
     this.physics.add.collider(player, wolf,PlayerWolf);
-
 }
 
 
 function PlayerWolf ()
-{
-    console.log(life);
+{   
+    test = 1;
+    if (player.body.position.x >= wolf.body.position.x)
+    {
+        console.log("PlayerX plus grand");
+        player.setVelocityY(-200);
+    }
+    else if(player.body.position.x <= wolf.body.position.x)
+    {
+        console.log("PlayerX plus petit");
+        player.setVelocityY(-200);
+    }
     life= life -1;
-    player.setVelocityY(-100)
+    
+
 } 
 
 
@@ -235,6 +245,7 @@ function PlayerWolf ()
 
 function update ()
 {
+
     if (gameOver)
     {
         return;
@@ -335,63 +346,54 @@ function update ()
 ///////////////////////////////////////////////////////  Control Clavier /////////////////////////////////////////////////////
 
     
-
     if (paddleConnected == false)
     {
-
-        if (cursors.left.isDown)
+        if(ICE == false)
         {
-            if(ICE == true)
+            if (cursors.left.isDown)
             {
-                currentSpeed = speedICE;
+                player.setVelocityX(-160);
+                player.anims.play('left', true);
             }
-            else if (SNOW == true)
+            else if (cursors.right.isDown)
             {
-                currentSpeed = speedSNOW;
+                player.setVelocityX(160);
+
+                player.anims.play('right', true);
             }
             else
             {
-                currentSpeed = speed;
+                if(test ==0)//////////"tu t'est arreter la "/////////// PENSE AU BOUNCE
+                {
+                player.setVelocityX(0);
+                }
+                player.setAccelerationX(-0);
+                player.anims.play('turn');
             }
-
-            player.setVelocityX(-currentSpeed);
-
-            player.anims.play('left', true);
         }
-        else if (cursors.right.isDown)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if (ICE == true)
         {
-            if(ICE == true)
+                if (cursors.left.isDown)
             {
-                currentSpeed = speedICE;
+                player.setAccelerationX(-100);
+                player.anims.play('left', true);
             }
-            else if (SNOW == true)
+            else if (cursors.right.isDown)
             {
-                currentSpeed = speedSNOW;
+                player.setAccelerationX(100);
+                player.anims.play('right', true);
             }
             else
             {
-                currentSpeed = speed;
+                player.setAccelerationX(-0);
+                player.anims.play('turn');
             }
-
-            player.setVelocityX(currentSpeed);
-
-            player.anims.play('right', true);
-        }
-    
-        //---------------//Sol normal//---------------//
-        else if (ICE == false)
-        {
-            player.setVelocityX(0);
-
-            player.anims.play('turn');
-        }
-    
-        //---------------//Sol de glace//---------------//
-        else if (ICE == true)
-        {
-            player.anims.play('turn');
         }
 
+        
         //---------------// Saut //---------------//
         if (player.body.touching.down && cursors.space.isDown)
         {
@@ -439,9 +441,9 @@ function update ()
 
         //---------------// Dash Down //---------------//
         if (!player.body.touching.down && cursors.down.isDown)
-            {
-                player.setVelocityY(400);
-            }
+        {
+            player.setVelocityY(400);
+        }
 
 
         //---------------// Dash attack //---------------//
@@ -463,11 +465,11 @@ function update ()
             {
                 if(dashAttackRight == 1)
                 {
-                    player.setVelocityX(1500);
+                    player.setVelocityX(1700);
                 }
                 else if (dashAttackLeft == 1)
                 {
-                    player.setVelocityX(-1500);
+                    player.setVelocityX(-1700);
                 }
                 tempDash++;
             }
@@ -478,7 +480,9 @@ function update ()
                 dashAttackRight = 0;
                 tempDash = 0;
                 dashAerien = 1;
-            }
+                player.setVelocityX(0);
+                player.setAccelerationX(0);
+             }
         }
         
         if (!player.body.touching.down && dashAerien== 1)

@@ -85,8 +85,10 @@ function create ()
     player = this.physics.add.sprite(100, 450, 'dude');
 
     //  Player physics properties. Give the little guy a slight bounce.
-    player.setBounce(0);
+    player.setBounce(0.5);
     player.setCollideWorldBounds(true);
+
+
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -183,7 +185,6 @@ function update ()
         retenu ++;
        // console.log("retenu =",retenu);
     }
-
     
     if (paddleConnected == false)
         {
@@ -208,29 +209,30 @@ function update ()
                     player.anims.play('turn');
                 }
             }
-            
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             if (ICE == true)
             {
                   if (cursors.left.isDown)
                 {
-                    player.setVelocityX(-200);
+                    player.setAccelerationX(-100);
 
                     player.anims.play('left', true);
                 }
                 else if (cursors.right.isDown)
                 {
-                    player.setVelocityX(200);
+                    player.setAccelerationX(100);
 
                     player.anims.play('right', true);
                 }
                 else
                 {
-                    //player.setVelocityX(0);
-
                     player.anims.play('turn');
                 }
             }
 
+         
             
             /*if (player.body.touching.down && cursors.space.isDown)
                 {
