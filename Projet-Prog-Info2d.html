@@ -223,30 +223,37 @@ function create ()
 }
 
 
+
 function PlayerWolf ()
 {   
-    // test = 1;
+    GroundBlue();
     if (player.body.position.x >= wolf.body.position.x)
     {
-        console.log("PlayerX plus grand");
-        player.setVelocityY(-300);
+        //console.log("PlayerX plus grand");
+        player.setVelocityY(-200);
+        player.setVelocityX(200);
     }
     else if(player.body.position.x <= wolf.body.position.x)
     {
-        console.log("PlayerX plus petit");
-        player.setVelocityY(-300);
+        //console.log("PlayerX plus petit");
+        player.setVelocityY(-200);
+        player.setVelocityX(-200);
     }
-    life= life -1;
-    
-
+    life= life -1;   
 } 
+
+
+
+
+
+
+
 
 
 //////////////////////////////////////////////////////// FUNCTION-UPDATE ////////////////////////////////////////////////////////
 
 function update ()
 {
-
     if (gameOver)
     {
         return;
