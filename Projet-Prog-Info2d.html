@@ -497,19 +497,19 @@ function update ()
 
         //////////////////////////////////// Saut murale ////////////////////////////////////
         
-        if(player.body.touching.left && cursors.space.isDown && cursors.left.isDown)
+        if(player.body.touching.left && cursors.space.isDown)
         {
             //console.log("touche gauche");
             wallJumpRight = 1;
         }
-        if (player.body.touching.right && cursors.space.isDown && cursors.right.isDown)
+        if (player.body.touching.right && cursors.space.isDown)
         {
             //console.log("touche droite");
             wallJumpLeft = 1;
         }
 
 
-        if ((wallJumpRight == 1 || wallJumpLeft == 1) && timeWalljump <= 40)
+        if ((wallJumpRight == 1 || wallJumpLeft == 1) && timeWalljump <= 20)
         {
             GroundGreen();
             if(timeWalljump==0)
@@ -531,7 +531,7 @@ function update ()
         }
 
         //wall jump compteur reset
-        if (timeWalljump >= 40 && (wallJumpRight == 1 || wallJumpLeft == 1)) 
+        if (timeWalljump >= 20 && (wallJumpRight == 1 || wallJumpLeft == 1)) 
         {
             //console.log("RESET !!");
             wallJumpLeft = 0;
