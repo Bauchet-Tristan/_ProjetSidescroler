@@ -5,18 +5,21 @@ Reponse == rajouté de la deco manuellement par dessus en ajoutant de la deco au
 Augmenter la taille du perso
 Reponse : Sprite up en taille
 
+Camera qui bloque contre les parois ?? 
+reponse : faire des grand decors...
+
+Collide coté sans exercer de force X
+Reponse : Overlap
+
 //////////////////////////////////////////////////////
 
 ---ennemie ne doit pas êtres bouger par le joueur
 ---équilibrage
 
 -----------------------------------------------------
-/-/-/-/-/-/-/-/ Collide coté sans exercer de force X /-/-/-/-/-/-/-/ 
-/-/-/-/-/-/-/-/ Comment ajouté un ecran Titre sans scene ??? /-/-/-/-/-/-/-/
-/-/-/-/-/-/-/-/ Comment faire en sorte qu'un ennemie ne disparaisse pas quand on lui saute dessus "Immovable" /-/-/-/-/-/-/-/
-/-/-/-/-/-/-/-/ Faire des childs de l'ennemie /-/-/-/-/-/-/-/
-/-/-/-/-/-/-/-/ Camera qui bloque contre les parois ?? /-/-/-/-/-/-/-/ reponse : faire des grand decors...
 
+/-/-/-/-/-/-/-/ Comment ajouté un ecran Titre sans scene ??? /-/-/-/-/-/-/-/ et changer de niveau ...
+/-/-/-/-/-/-/-/ Faire des childs de l'ennemie /-/-/-/-/-/-/-/
 
 
 
@@ -26,5 +29,4 @@ Reponse : Sprite up en taille
 //////////////////////////////////////
 INFO 2d
 
-EN COMBIEN LES PERSONNAGE
 
