@@ -13,9 +13,6 @@ Reponse : Overlap
 
 //////////////////////////////////////////////////////
 
----WallJump ameliorer 
-
----ennemie ne doit pas êtres bouger par le joueur
 ---équilibrage
 
 -----------------------------------------------------
@@ -26,9 +23,12 @@ Reponse : Overlap
 
 
 //Power up qui debolque une capacité
+// jumpIsUp = 1;////////////////////////////////////////////////////////////////
 
 
 //////////////////////////////////////
 INFO 2d
+//////////////////////////////////////
 
+phaser.physics.arcade === this.physics.add.
 
