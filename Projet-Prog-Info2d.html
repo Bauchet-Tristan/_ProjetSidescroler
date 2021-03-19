@@ -665,13 +665,13 @@ function Saut()
 
 ///////////////////////////////////////// WALL JUMP /////////////////////////////////////////
 
-    if(hitLeft!=0 && cursors.space.isDown && jumpIsUp ==1)
+    if(hitLeft!=0 && cursors.space.isDown )
     {
         //console.log("touche gauche");
         wallJumpRight = 1;
     }
 
-    if(hitRight !=0 && cursors.space.isDown && jumpIsUp ==1)
+    if(hitRight !=0 && cursors.space.isDown )
     {
         //console.log("touche droite");
         wallJumpLeft = 1;
@@ -692,11 +692,24 @@ function Saut()
         {
             //console.log("saut a droite");
             player.setVelocityX(400);
+            
+            if(hitRight != 0)
+            {
+                console.log("saut a droite");
+                timeWalljump = 27;
+            }
         }
-        else if (wallJumpLeft == 1)
+        
+        if (wallJumpLeft == 1)
         {
             //console.log("saut a gauche");
             player.setVelocityX(-400);
+
+            if(hitLeft != 0)
+            {
+                console.log("saut a gauche");
+                timeWalljump = 27;
+            }
         }
         timeWalljump++;
     }
