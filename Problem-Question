@@ -1,4 +1,4 @@
-Camera qui bloque contre les parois ?? 
+Camera qui bloque contre les parois ??
 reponse : faire des grand decors...
 
 //////////////////////////////////////////////////////
@@ -12,8 +12,7 @@ reponse : faire des grand decors...
 
 
 
-//Power up qui debolque une capacité
-// jumpIsUp = 1;////////////////////////////////////////////////////////////////
+
 
 
 //////////////////////////////////////
@@ -22,4 +21,22 @@ INFO 2d
 
 phaser.physics.arcade === this.physics.add.
 
-// regagner de la vie et de l'energie
+
+
+
+//Mort instantané
+
+power up
+
+animation saut
+animation attack
+animation Loup
+animation saut mural
+
+ecran acceuille
+
+faire les video de presentation
+
+//
+Changer les hit Box
+Zone de régéneration
