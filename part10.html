@@ -330,33 +330,28 @@ function update ()
 
         if (paddleConnected == true)
         {
-                 if (paddle.left )
+            if (paddle.left )
             {
                 player.setVelocityX(-160);
 
-                player.anims.play('left', true);
+
             }
             
             else if (paddle.right )
             {
                 player.setVelocityX(160);
-
-                player.anims.play('right', true);
             }
             
             else
             {
                 player.setVelocityX(0);
-
-                player.anims.play('turn');
             }
 
             if (player.body.touching.down && paddle.A )
-                {
-                    player.setVelocityY(-330);
-                }
+            {
+                player.setVelocityY(-330);
+            }
         }
-    
 }
 
     
