@@ -1,39 +1,5 @@
-Camera qui bloque contre les parois ??
-reponse : faire des grand decors...
+Faire les videos de presentation
 
-//////////////////////////////////////////////////////
-
----équilibrage
-
------------------------------------------------------
-
-/-/-/-/-/-/-/-/ Comment ajouté un ecran Titre sans scene ??? /-/-/-/-/-/-/-/ et changer de niveau ...
-/-/-/-/-/-/-/-/ Faire des childs de l'ennemie /-/-/-/-/-/-/-/
+Control mannette
 
 
-
-
-
-
-//////////////////////////////////////
-INFO 2d
-//////////////////////////////////////
-
-phaser.physics.arcade === this.physics.add.
-
-
-
-
-
-
-animation attack
-
-
-ecran acceuille
-
-faire les videos de presentation
-
-//
-
-Changer les hit Box ==== Set-size
-Zone de régéneration

@@ -104,7 +104,7 @@ var wallJumpLeft = 0;
 var wallJumpRight = 0;
 var timeWalljump = 0;
 var jumpIsUp = 1;
-var powerUp = false;
+var powerUp = true;
 
 //Dash attack
 var dashAttackLeft = 0;
@@ -120,12 +120,17 @@ var keyD;
 
 // GAME //
 var platfromMort;
+var PlaformVie;
+var gagne = false;
+var win;
 var gameOver = false;
 var game = new Phaser.Game(config);
 
 
 function preload ()
 {
+    this.load.image('fake', 'assets/fake.png');
+
     this.load.image('nuage1', 'assets/Nuage1.png');
     this.load.image('nuage2', 'assets/Nuage2.png');
     this.load.image('nuage3', 'assets/Nuage3.png');
@@ -164,14 +169,11 @@ function create ()
     //  A simple background for our game
     this.add.image(1920, 1080, 'sky');
     
-    // Cloud
-    this.add.image(3800, 500, 'nuage1');
-    this.add.image(3700, 600, 'nuage2');
-    this.add.image(3800, 400, 'nuage3');
-    this.add.image(3700, 500, 'nuage4');
+    win = this.add.text(2900, 100, 'WIN', { fontSize: '502px', fill: '#111' });
 
     //  The platforms group contains the ground and the ledges we can jump on
     platfromMort = this.physics.add.staticGroup();
+    platfromVie = this.physics.add.staticGroup();
     platforms = this.physics.add.staticGroup();
     platformsICE = this.physics.add.staticGroup();
     platformsSNOW = this.physics.add.staticGroup();
@@ -179,7 +181,7 @@ function create ()
 
     // partie1////////////////
     // Plateforms horizontal
-    platfromMort.create(1500,2800,'ground').setScale(13).refreshBody();
+    platfromMort.create(1500,2800,'fake').setScale(13).refreshBody();
     platforms.create(900, 1800, 'ground').setScale(2).refreshBody(); // LE SOL
 
     platforms.create(1800, 1800, 'ground').setScale(2).refreshBody();  
@@ -207,8 +209,14 @@ function create ()
     wall.create(2300,520, 'wall').setScale(1).refreshBody(); // Plateform Verticale
     platforms.create(2850, 655, 'ground2').setScale(1.2).refreshBody(); 
     platforms.create(3320, 655, 'ground2').setScale(1.2).refreshBody();   
+    platfromVie.create(3800,500,'fake').setScale(1).refreshBody();
 
-
+    this.add.image(3800, 500, 'nuage1');
+    this.add.image(3700, 600, 'nuage2');
+    this.add.image(3800, 400, 'nuage3');
+    this.add.image(3700, 500, 'nuage4');
+    this.add.image(4000, 500, 'nuage1');
+    this.add.image(3600, 500, 'nuage1');
 
     // The player and its settings
     player = this.physics.add.sprite(2500,500, 'dudeIdle');
@@ -362,32 +370,14 @@ function create ()
     /////// Ennemi Collider ///////
     this.physics.add.overlap(player, wolf,PlayerWolf);
     this.physics.add.overlap(player, platfromMort,Mort);
-}
-function Mort()
-{
-    gameOver=true;
-}
-function DoubleJump()
-{
-    powerUp = true;
-    bonus.disableBody(true,true);
-    bonus.setAlpha(0);
+    this.physics.add.overlap(player, platfromVie,Vie);
 }
 
 /*/                                                       FUNCTION-UPDATE                                                      /*/
 
-
 function update ()
 {
-    let pad = Phaser.Input.Gamepad.Gamepad;
-
-    if(this.input.gamepad.total)
-    {
-        pad = this.input.gamepad.getPad(0)
-        xAxis = pad ? pad.axes[0].getValue() : 0;
-        yAxis = pad ? pad.axes[1].getValue() : 0;
-    }
-
+    win.setAlpha(0);
 ///////////////////////////////////////////////////
 
     if (gameOver)
@@ -397,6 +387,12 @@ function update ()
         life = 6;
         spirit =6;
         gameOver = false;
+    }
+
+    if (gagne)
+    {
+        win.setAlpha(1);
+        this.physics.pause();
     }
 
 ///////////////////////////////////////////////////
@@ -459,8 +455,7 @@ function update ()
             player.setVelocityX(-310);
         }
         else if (cursors.right.isDown)
-        {
-            
+        {            
             if(player.body.touching.down)
             {
                 player.anims.play('RunRight', true);
@@ -482,7 +477,7 @@ function update ()
                 {
                     player.anims.play('IdleLeft',true);
                 }
-                else
+                else if (Run == "right")
                 {
                     player.anims.play('IdleRight',true);
                 }
@@ -500,6 +495,7 @@ function update ()
         if (cursors.left.isDown)
         {
             player.setAccelerationX(-200);
+            Run = "left";
 
             if(player.body.touching.down)
             {
@@ -513,6 +509,7 @@ function update ()
         else if (cursors.right.isDown)
         {
             player.setAccelerationX(200);
+            Run = "right";
             if(player.body.touching.down)
             {
                 player.anims.play('RunRight', true);
@@ -527,7 +524,14 @@ function update ()
             player.setAccelerationX(-0);
             if(player.body.touching.down)
             {
-                player.anims.play('IdleLeft',true);
+                if(Run == "left")
+                {
+                    player.anims.play('IdleLeft',true);
+                }
+                else if (Run == "right")
+                {
+                    player.anims.play('IdleRight',true);
+                }
             }
             else
             {
@@ -536,12 +540,13 @@ function update ()
             
         }
     }
-    
+    ////////////////////////snow/////////////////////////
     if(SNOW == true)
     {
         if (cursors.left.isDown)
         {
             player.setVelocityX(-125);
+            Run = "left";
             if(player.body.touching.down)
             {
                 player.anims.play('RunLeft', true);
@@ -554,14 +559,29 @@ function update ()
         }
         else if (cursors.right.isDown)
         {
+            Run = "right";
             player.setVelocityX(125);
-            player.anims.play('RunRight', true);
+            if(player.body.touching.down)
+            {
+                player.anims.play('RunRight', true);
+            }
+            else
+            {
+                player.anims.play('JumpRight', true);
+            }
         }
         else
         {
             player.setVelocityX(0);
             player.setAccelerationX(0);
-            player.anims.play('IdleLeft',true);
+            if(Run == "left")
+            {
+                player.anims.play('IdleLeft',true);
+            }
+            else if (Run == "right")
+            {
+                player.anims.play('IdleRight',true);
+            }
         }
     }
     
@@ -588,6 +608,23 @@ function RESET()
 {
     hitLeft = 0;
     hitRight = 0;
+}
+
+function Vie()
+{
+    gagne = true;
+}
+
+function Mort()
+{
+    gameOver=true;
+}
+
+function DoubleJump()
+{
+    powerUp = true;
+    bonus.disableBody(true,true);
+    bonus.setAlpha(0);
 }
 
 function UX ()
@@ -1005,8 +1042,9 @@ function Dash()
         }
 
         //Dash
-        if ((dashAttackRight == 1 || dashAttackLeft == 1) && tempDash < 9)
+        if ((dashAttackRight == 1 || dashAttackLeft == 1) && tempDash < 11)
         {
+            player.setAlpha(0);
             if (dashAttackRight == 1)
             {
                 player.setVelocityX(2000);
@@ -1019,17 +1057,19 @@ function Dash()
         }
 
         //Apres le dash reset notre vitesse 
-        else if (tempDash==9) 
+        else if (tempDash==11) 
         {
             player.setVelocityX(0);
             player.setAccelerationX(0);
             GroundGreen();
-            tempDash=10;
+            tempDash=12;
+            player.setAlpha(1);
         }
 
         //Met a jour les compteurs des dashs
-        if (keyA.isUp && tempDash >= 10 && (dashAttackRight == 1 || dashAttackLeft == 1)) 
+        if (keyA.isUp && tempDash >= 12 && (dashAttackRight == 1 || dashAttackLeft == 1)) 
         {
+            player.setAlpha(1);
             dashAttackLeft = 0;
             dashAttackRight = 0;
             tempDash = 0;
